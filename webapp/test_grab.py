@@ -10,7 +10,7 @@ def get_user_id(login):
     return print(user.id)
 
 def grab():
-    
+    print('inside grab fnc')
     #user_real_id = get_user_id(login)
 
     for i in range(0,5):
@@ -22,4 +22,4 @@ def grab():
         db.session.add(new_point)
         db.session.commit()
 
-    return print('inside grab fnc')
+    return print('from return inside grab fnc')

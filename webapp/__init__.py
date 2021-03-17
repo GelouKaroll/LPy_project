@@ -31,8 +31,9 @@ def create_app():
 
     @app.route('/grab_data')
     def grab_data():
+        login=''
         grab()
-        #print (f"grab data with ")
+        print (f"grab data with {login} user")
         return ("nothing")
 
     @app.route('/grab_data_stop')
