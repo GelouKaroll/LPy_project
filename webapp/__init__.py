@@ -1,8 +1,8 @@
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, redirect, url_for, session as ses
 from webapp.model import db, User
 from webapp.forms import LoginForm
 from webapp.config import Config
-from webapp.test_grab import grab
+from webapp.grab import grab_point
 
 def create_app():
     app = Flask(__name__)
@@ -16,6 +16,7 @@ def create_app():
 
         form_login = LoginForm()
         
+        
         if form_login.validate_on_submit():
             user_name = form_login.username.data
             user_exist = User.query.filter(User.login == user_name).count()
@@ -24,16 +25,16 @@ def create_app():
                 db.session.add(new_user)
                 db.session.commit()
 
+            ses['user_name'] = user_name
+
             return redirect(url_for('session', login=user_name))
 
         return render_template('index.html', page_title=title, form=form_login)
 
-
     @app.route('/grab_data')
     def grab_data():
-        login=''
-        grab()
-        print (f"grab data with {login} user")
+        user_name = ses['user_name']
+        grab_point(user_name)
         return ("nothing")
 
     @app.route('/grab_data_stop')
